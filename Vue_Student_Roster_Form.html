@@ -21,6 +21,17 @@
       box-sizing: border-box;
     }
 
+    tr, th {
+      width: 15%;
+      text-align: left;
+    }
+
+    td {
+
+      width: 30%;
+    }
+
+
   </style>
 
 </head>
@@ -71,9 +82,10 @@
   <div id="student-list">
     <table class="table">
       <thead>
-      <tr class="align-middle">
+      <tr>
         <th>Name</th>
         <th>StarID</th>
+        <th>Student GPA</th>
         <th>Signed In/Out</th>
       </tr>
       </thead>
@@ -83,12 +95,12 @@
       Each row will have a checkbox, bound to the app's data
       When the checkbox is checked/unchecked,
       the student will be signed in/out -->
-      <tr  v-for="student in studentList" v-on:click="selectOrUnselectStudent(student)" class="align-middle"  v-bind:class="{ selected: student.selected }">
+      <tr  v-for="student in studentList" v-on:click="selectOrUnselectStudent(student)"  v-bind:class="{ selected: student.selected }">
         <td>{{ student.name }}</td>
         <td>{{ student.id }}</td>
         <td>{{ student.gpa }}</td>
         <td>
-          <input type="checkbox" v-model="student.present" v-on:change="selectOrUnselectStudent(student)">
+          <input type="checkbox" v-model="student.present" v-on:change="studentToDelete(student)">
           <span class="mx-3" v-if="student.present"></span>
           <span class="mx-3" v-else></span>
         </td>
@@ -192,25 +204,16 @@
         }
 
 
-      const removeSelectedStudents = (studentToDelete) => {
-        // Remove all students with selected = true from the studentList. You can do this with filter,
-        // or you can make a new empty array, loop over the studentList, and copy all selected = false students
-        // to the new list, then replace the value of studentList with the new array
-        if (confirm(`Delete ${studentToDelete.name}?`)) {
-          // removes student from student list
-          studentList.value = studentList.value.filter( (student) => {
-            return studentToDelete !== student
-          })
-        }
-      }
-
-
+      const removeSelectedStudents = () => {
+        // Remove all students with selected = true from the studentList. Filter out selected students.
+        studentList.value = studentList.value.filter(student => !student.selected);
+      };
 
       const selectOrUnselectStudent = (student) => {
-        // This function is completed for you. If the selected property is true, it is changed to false.
-        // if the selected property is false, it is changed to true.
-        student.selected = !student.selected
-      }
+        // Toggle the selected property for the student object.
+        student.selected = !student.selected;
+      };
+
 
 
       return {

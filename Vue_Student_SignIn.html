@@ -124,7 +124,7 @@
                 }
 
                 //if there are no errors
-                if (formErrors.value.length == 0) {
+                if (formErrors.value.length === 0) {
                     let student = {name: newStudentName.value, starID: newStarID.value, present: false}
                     studentList.value.push(student)
                     newStudentName.value = '' // clears form input
